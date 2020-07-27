@@ -1,0 +1,23 @@
+.boxes {
+	width: 80%;
+	height: 150px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	border: navy 5px double;
+	margin: 10px auto;
+	background-color: cornsilk;
+}
+
+#youtube {
+	width:5%;
+	height: auto;
+}
+
+.content {
+	background-color: PeachPuff;
+	padding: 2px 20px;
+	height: 80%;
+	border: indigo 2px solid;
+}
