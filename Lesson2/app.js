@@ -14,4 +14,5 @@ ctx.strokeStyle = 'green';
 ctx.strokeRect(50, 100, 200, 150);
 
 ctx.clearRect(125, 150, 50, 50);
+
 ctx.stroke();
