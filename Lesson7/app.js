@@ -12,7 +12,7 @@ function preload(){
 }
 
 function create(){
-	game.physics.startSystem(Phaser.physics.ARCADE);
+	game.physics.startSystem(Phaser.Physics.ARCADE);
 
 	//sky
 	game.add.sprite(0, 0, 'sky');
@@ -28,6 +28,22 @@ function create(){
 	ledge.body.immovable = true;
 	ledge = platforms.create(-100, 250, 'ground');
 	ledge.body.immovable = true;
+
+	//set text style
+	var style = {font:"bold 32px Arial", fill: "#fff"}
+
+	//position the score
+	scorelabel = game.add.text(300, 560, "Score: ", style);
+	scoretext = game.add.text(420, 560, score, style);
+	scorelabel.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+	scoretext.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+
+	//Position the lives
+	lifelabel = game.add.text(10, 5, "Lives: ", style);
+	lifetext = game.add.text(120, 5, life, style);
+	lifelabel.setShadow(3,3,'rgba(0,0,0,0.5)', 2);
+	lifetext.setShadow(3,3,'rgba(0,0,0,0.5)', 2);
+
 
 }
 
