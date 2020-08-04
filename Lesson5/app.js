@@ -12,6 +12,7 @@ var HEIGHT = 400;
 
 var x, y;
 var mx, my;
+var circleColor = "rgb(255, 0, 0)"
 
 //Initialise animation
 
@@ -20,16 +21,25 @@ function init(){
 	y = 200;
 	mx = 3;
 	my = 4;
-	return setInterval(draw, 5);
+	return setInterval(draw, 10);
 }
 
-function circle(x, y, r){
+function circle(x, y, r, color){
 	ctx.beginPath();
 	ctx.arc(x, y, r, 0, 6.28);
 	ctx.closePath();
 	ctx.stroke();
-	ctx.fillStyle = 'red';
+	ctx.fillStyle = color;
 	ctx.fill();
+}
+
+// Generate random color
+
+function randomColor() {
+	var r = Math.floor(Math.random()*255);
+	var g = Math.floor(Math.random()*255);
+	var b = Math.floor(Math.random()*255);
+	return "rgb(" + r +"," + g + "," + b + ")";
 }
 
 //clear trail
@@ -40,13 +50,15 @@ function clear(){
 //draw Frames
 function draw(){
 	clear();
-	circle(x, y, 30);
+	circle(x, y, 30, circleColor);
 
 	if(x + mx < 0 || x + mx > WIDTH){
 		mx = -mx;
+		circleColor = randomColor();
 	}
 	if(y + my < 0 || y + my > HEIGHT){
 		my = -my;
+		circleColor = randomColor();
 	}
 
 	//move the shape
