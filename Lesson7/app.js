@@ -51,7 +51,7 @@ function create(){
 	player.animations.add('right', [5, 6, 7, 8], 10, true);
 	game.physics.arcade.enable(player)
 	player.body.bounce.y = 0.2;
-	player.bodu.gravity.y = 300;
+	player.body.gravity.y = 300;
 	player.body.collideWorldBounds = true;
 
 	//Create enemy
@@ -61,8 +61,18 @@ function create(){
 	enemy1.animations.add('right', [2, 3], 10, true);
 	game.physics.arcade.enable(enemy1);
 	enemy1.body.bounce.y = 0.2;
-	enemy.body.gravity.y = 500;
+	enemy1.body.gravity.y = 500;
 	enemy1.body.collideWorldBounds = true;
+
+	//Create second enemy
+	enemy2 = game.add.sprite(760, 20, 'baddie');
+	//Animations for enemy
+	enemy2.animations.add('left', [0, 1], 10, true);
+	enemy2.animations.add('right', [2, 3], 10, true);
+	game.physics.arcade.enable(enemy2);
+	enemy2.body.bounce.y = 0.2;
+	enemy2.body.gravity.y = 500;
+	enemy2.body.collideWorldBounds = true;
 
 	//Create the stars
 	stars = game.add.physicsGroup();
@@ -82,6 +92,7 @@ function update(){
 	game.physics.arcade.collide(player, platforms);
 	game.physics.arcade.collide(stars, platforms);
 	game.physics.arcade.collide(enemy1, platforms);
+	game.physics.arcade.collide(enemy2, platforms);
 
 	//reset the player's velocity if nothing happens
 	player.body.velocity.x = 0
@@ -103,5 +114,62 @@ function update(){
 	if(cursors.up.isDown && player.body.touching.down){
 		player.body.velocity.y = -300;
 	}
+	game.physics.arcade.overlap(player, stars, collectStar);
+	game.physics.arcade.overlap(player, enemy1, loseLife);
+	game.physics.arcade.overlap(player, enemy2, loseLife);
 
+	moveEnemy();
+
+	if(life < 0){
+		endGame();
+	}
+
+}
+
+function collectStar(player, star){
+	//Update score value
+	score = score + 1;
+	//show new score
+	scoretext.setText(score);
+
+	//remove star and reset to the top
+	star.kill();
+	star.reset(Math.floor(Math.random() * 750), 0);
+}
+
+function loseLife(player, enemy){
+	//lose life
+	life = life - 1;
+	lifetext.setText(life);
+
+	enemy.kill()
+	enemy.reset(10, 20)
+}
+
+function moveEnemy(){
+	//Enemy1 AI
+	if(enemy1.x > 759){
+		enemy1.animations.play('left');
+		enemy1.body.velocity.x = -120;
+	} else if(enemy1.x < 405){
+		enemy1.animations.play('right');
+		enemy1.body.velocity.x = 120;	
+	}
+
+	//Enemy2 AI
+	if(enemy2.x > 200){
+		enemy2.animations.play('left');
+		enemy2.body.velocity.x = -120;
+	}else if(enemy2.x < 21){
+		enemy2.animations.play('right');
+		enemy2.body.velocity.x = 120;
+	}
+}
+
+function endGame(){
+	player.kill();
+	scorelabel.text = "GAME OVER! You scored " + score;
+	scoretext.visibile = false;
+	lifelabel.visibile = false;
+	lifetext.visibile = false;
 }
